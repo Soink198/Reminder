@@ -61,7 +61,7 @@ public class RunController {
         runRepo.update(run, id);
     }
 
-    // delete
+    // delete12
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("delete/{id}")
     void delete(@PathVariable Integer id) {
