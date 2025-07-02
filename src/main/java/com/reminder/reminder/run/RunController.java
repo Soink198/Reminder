@@ -1,5 +1,6 @@
 package com.reminder.reminder.run;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +8,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/runs")
@@ -49,9 +45,17 @@ public class RunController {
 
     // post
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create")
-    void create(@RequestBody Run run) {
-        runRepo.create(run);
+    @PostMapping("/create/{id}")
+    void create(@PathVariable Integer id, @RequestBody Run run) {
+        Run newRun = Run.withDefault(
+                id,
+                run.title(),
+                run.startDate(),
+                run.compDate(),
+                run.miles());
+
+        // Add the new run to the repository
+        runRepo.create(newRun);
     }
 
     // put
